@@ -6,11 +6,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest]
+        os: [android-latest]
         build_type: [Release]
         enable_ui: [on]
         include:
-          - os: windows-latest
+          - os: android-latest
             build_type: Release
             enable_ui: on
     steps:
@@ -19,12 +19,12 @@ jobs:
         submodules: 'recursive'
     - name: ccache
       uses: hendrikmuhs/ccache-action@v1
-      if: runner.os == 'Linux'
+      if: runner.os == 'Android'
       with:
         key: ${{ matrix.os }}-${{ matrix.enable_ui }}
     - uses: seanmiddleditch/gha-setup-ninja@master
     - uses: ilammy/msvc-dev-cmd@v1
-      if: runner.os == 'Windows'
+      if: runner.os == 'Android'
     - name: Install Dependencies
       shell: bash
       run: |
@@ -36,7 +36,7 @@ jobs:
     - name: Generating Makefiles
       shell: bash
       run: |
-        if [[ "${{ runner.os }}" == "Windows" ]] ; then
+        if [[ "${{ runner.os }}" == "Android" ]] ; then
           export enable_ccache=off
         else
           export enable_ccache=on
@@ -60,4 +60,4 @@ jobs:
         name: aseprite
         path: |
           D:/a/aseprite/aseprite/build/bin/data
-          D:/a/aseprite/aseprite/build/bin/aseprite.exe
+          D:/a/aseprite/aseprite/build/bin/aseprite.apk
